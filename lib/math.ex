@@ -1,5 +1,4 @@
 defmodule Math do
-
   defdelegate log2(n), to: :math
   defdelegate pow(x, y), to: :math
 
@@ -19,6 +18,7 @@ defmodule Math do
   """
   def log2_star(n, count \\ 0)
   def log2_star(n, count) when n <= 1, do: count
+
   def log2_star(n, count) do
     n
     |> log2
@@ -36,6 +36,20 @@ defmodule Math do
   def summation(k, n, fun, sum \\ 0)
   def summation(n, n, fun, sum), do: sum + fun.(n)
   def summation(k, n, fun, sum), do: summation(k + 1, n, fun, sum + fun.(k))
+
+  @doc """
+  Computes \product{k}{n} fun(k)
+
+  ## Examples
+
+      iex> Math.product(1, 3, fn k -> k + 1 end)
+      24
+      iex> Math.product(1, 10, fn k -> k end)
+      Math.factorial(10)
+  """
+  def product(k, n, fun, prod \\ 1)
+  def product(n, n, fun, prod), do: prod * fun.(n)
+  def product(k, n, fun, prod), do: product(k + 1, n, fun, prod * fun.(k))
 
   @doc """
   Computes n!
