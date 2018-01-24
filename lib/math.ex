@@ -1,6 +1,7 @@
 defmodule Math do
 
   defdelegate log2(n), to: :math
+  defdelegate pow(x, y), to: :math
 
   @doc """
   Computes lg*(n)
@@ -23,4 +24,34 @@ defmodule Math do
     |> log2
     |> log2_star(count + 1)
   end
+
+  @doc """
+  Computes \sum{k}{n} fun(k)
+
+  ## Examples
+
+      iex> Math.summation(0, 10, fn k -> 2 * k end)
+      110
+  """
+  def summation(k, n, fun, sum \\ 0)
+  def summation(n, n, fun, sum), do: sum + fun.(n)
+  def summation(k, n, fun, sum), do: summation(k + 1, n, fun, sum + fun.(k))
+
+  @doc """
+  Computes n!
+
+  ## Examples
+
+      iex> Math.factorial(0)
+      1
+      iex> Math.factorial(1)
+      1
+      iex> Math.factorial(3)
+      6
+      iex> Math.factorial(10)
+      3_628_800
+  """
+  def factorial(n, product \\ 1)
+  def factorial(0, product), do: product
+  def factorial(n, product), do: factorial(n - 1, product * n)
 end
